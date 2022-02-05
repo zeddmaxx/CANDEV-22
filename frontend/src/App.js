@@ -15,6 +15,12 @@ import { ResponsiveBar } from "@nivo/bar";
 //Data
 import { tidy, pivotWider } from "@tidyjs/tidy";
 
+//Options
+import demographic_options from './options/demographic_options.json'
+import department_options from './options/department_options.json'
+import question_options from './options/question_options.json'
+import survey_year_options from './options/survey_year_options.json'
+
 const App = () => {
   const [data, setData] = useState([]);
 
@@ -95,41 +101,6 @@ const App = () => {
       )
     : filteredData;
 
-  const survey_year_options = [
-    { value: 2020, label: "2020" },
-    { value: 2019, label: "2019" },
-    { value: 2018, label: "2018" },
-  ];
-
-  const demographic_options = [
-    {
-      value: "Male gender",
-      label: "Male gender",
-    },
-    {
-      value: "Female gender",
-      label: "Female gender",
-    },
-    {
-      value: "Indigenous",
-      label: "Non-Indigenous",
-    },
-  ];
-
-  const question_options = [
-    {
-      value:
-        "Question 1. I have the tools, technology and equipment I need to do my job.",
-      label:
-        "Question 1. I have the tools, technology and equipment I need to do my job.",
-    },
-    {
-      value:
-        "Question 2. The material and tools provided for my work, including software and other automated tools, are available in the official language of my choice.",
-      label:
-        "Question 2. The material and tools provided for my work, including software and other automated tools, are available in the official language of my choice.",
-    },
-  ];
 
   const handleSurveyYearChange = (event_array) => {
     console.log(event_array);
