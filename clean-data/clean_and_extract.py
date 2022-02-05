@@ -47,6 +47,7 @@ inter_data = inter_data.drop(columns=['BYCOND', 'DEMCODE', 'SCORE100', 'AGREE'])
 
 final_data = inter_data
 
+final_data.to_csv('data/clean.csv', index=False)
 
 final_data.to_json('data/clean.json', orient='records')
 
