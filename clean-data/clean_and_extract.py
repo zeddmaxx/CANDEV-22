@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 raw_data = pd.read_csv('data/subset3.csv', encoding_errors='replace')
 
@@ -43,11 +44,37 @@ inter_data = inter_data.rename(columns={'SURVEYR':'survey_year', 'DESCRIP_E': 'd
 
 inter_data = inter_data.drop(columns=['BYCOND', 'DEMCODE', 'SCORE100', 'AGREE'])
 
-inter_data = inter_data.loc[~inter_data['demographic'].str.contains('- Not selected')]
-
 
 final_data = inter_data
 
 
 final_data.to_json('data/clean.json', orient='records')
 
+
+survey_year_options = []
+for survey_year in inter_data.survey_year.unique():
+    survey_year_options.append({"label":f'{survey_year}', "value":f'{survey_year}'})
+
+with open('data/options/survey_year_options.json', 'w') as f:
+        json.dump(survey_year_options, f)
+
+question_options=[]
+for question in inter_data.question.unique():
+    question_options.append({"label":question, "value":question})
+
+with open('data/options/question_options.json', 'w') as f:
+        json.dump(question_options, f)
+
+demographic_options=[]
+for demographic in inter_data.demographic.unique():
+    demographic_options.append({"label":demographic, "value":demographic})
+
+with open('data/options/demographic_options.json', 'w') as f:
+        json.dump(demographic_options, f)
+
+department_options=[]
+for department in inter_data.department.unique():
+    department_options.append({"label":department, "value":department})
+
+with open('data/options/department_options.json', 'w') as f:
+        json.dump(department_options, f)
