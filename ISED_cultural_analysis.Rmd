@@ -1,0 +1,141 @@
+---
+title: "CANDEV- ISED ANALYSIS"
+author: "Jaffa Romain"
+date: "05/02/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(kableExtra)
+```
+
+# Data Cleaning
+```{r data}
+CANDEV_data <- read_csv("~/Desktop/subset-3-sous-ensemble-3.csv")
+CANDEV_data <- CANDEV_data %>% filter(SCORE100!= 9999)
+
+ISED_only <- CANDEV_data %>% filter(DEPT_E == "Innovation, Science and Economic Development Canada")
+
+# Visible minority
+VM_vs_NVM <- ISED_only %>% filter(BYCOND == "Q120 = 1" | BYCOND == "Q120 = 2")
+VM_vs_NVM %>%  group_by(DESCRIP_E) %>% count()
+
+Ethnic_Groups <- ISED_only %>% filter(BYCOND == "Q121A = 1" |BYCOND ==  "Q121B = 1"|BYCOND == "Q121C = 1" |BYCOND == "Q121D = 1"|BYCOND =="Q121E = 1"|BYCOND == "Q121F = 1"|BYCOND == "Q121G = 1"|BYCOND == "Q121H = 1"|BYCOND ==  "Q121I = 1"| BYCOND == "Q121J = 1"| BYCOND =="Q121K = 1" |BYCOND =="Q120 = 2")
+Ethnic_Groups %>%  group_by(DESCRIP_E) %>% count()
+
+# Indigenous
+IvsNI <- ISED_only %>% filter(BYCOND == "Q116 = 1" | BYCOND ==  "Q116 = 2")
+
+# Gender
+gender <- ISED_only %>% filter(BYCOND == "Q115 = 1" | BYCOND ==  "Q115 = 2"|BYCOND == "Q115 = 3")
+
+
+# Disabilities
+
+access <- ISED_only %>% filter(BYCOND == "Q118 = 1" | BYCOND ==  "Q118 = 2")
+
+```
+
+# ANOVA assessing difference in groups
+ - score100 is used as measure
+
+## Minority vs Non-minority
+```{r}
+# RACE - questions related to cultural diversity and racism
+minorities <- VM_vs_NVM %>% filter(QUESTION == "Q22"| QUESTION == "Q45"| QUESTION == "Q46"| QUESTION == "Q47"| QUESTION == "Q48"| QUESTION == "6Q4a" | QUESTION == "Q64c" | QUESTION == "6Q4b"| QUESTION == "Q69") 
+
+t.test(SCORE100~DESCRIP_E, data = minorities)
+
+
+# which questions/prompts have the biggest difference in scores?
+
+
+differencesminorities<- minorities %>% group_by(QUESTION, BYCOND) %>% summarize(mean = mean(SCORE100, na.rm = TRUE)) %>%  pivot_wider(names_from = BYCOND,  values_from = mean) %>% summarize(diff = `Q120 = 1` - `Q120 = 2`) 
+
+differencesminorities
+
+
+minorities %>%  ggplot(aes(x = DESCRIP_E, y = SCORE100)) + geom_boxplot(
+  aes(fill = DESCRIP_E),
+  position = position_dodge(0.9) 
+  ) +
+  scale_fill_manual(values = c("#999999", "#E69F00"))
+
+```
+
+- # significant difference between cultural scores for minority vs minority (p < 0.05)
+_ what are the differences?
+- minority groups are rated lower for all of the questions
+- the biggest gap in scores among these questions is q48: Question 48. I would feel comfortable sharing concerns about issues related to racism in the workplace with a person of authority (e.g., immediate supervisor, senior manager, ombudsman, human resources advisor).
+
+- second highest: Q25
+- difference in average score (out of 100) is 12.
+
+How comfortable do employees feel sharing concerns?
+```{r}
+minorities %>% group_by(QUESTION, BYCOND) %>% summarize(mean = mean(SCORE100, na.rm = TRUE))
+
+
+```
+
+
+# Indigenous vs. non-Indigenous
+```{r}
+IN <- IvsNI %>% filter(QUESTION == "Q22"| QUESTION == "Q45"| QUESTION == "Q46"| QUESTION == "Q47"| QUESTION == "Q48"| QUESTION == "6Q4a" | QUESTION == "Q64c" | QUESTION == "6Q4b"| QUESTION == "Q69") 
+
+t.test(SCORE100~DESCRIP_E, data =IN)
+
+
+# which questions/prompts have the biggest difference in scores?
+
+
+differencesI<-IN %>% group_by(QUESTION, BYCOND) %>% summarize(mean = mean(SCORE100, na.rm = TRUE)) %>%  pivot_wider(names_from = BYCOND,  values_from = mean) %>% summarize(diff = `Q116 = 1` - `Q116 = 2`) 
+
+
+
+
+IN %>%  ggplot(aes(x = DESCRIP_E, y = SCORE100)) + geom_boxplot(
+  aes(fill = DESCRIP_E),
+  position = position_dodge(0.9) 
+  ) +
+  scale_fill_manual(values = c("#999999", "#E69F00"))
+```
+- SAME AS MINORITY VS NON-MINORITY - BUT DIFFERENCE NOT STATISTICALLY SIGNIFICANT
+
+
+
+## all groups - comparing scores of groups based on organization threshold
+```{r}
+Ethnic_Groups <- CANDEV_data %>% filter(BYCOND == "Q121A = 1" |BYCOND ==  "Q121B = 1"|BYCOND == "Q121C = 1" |BYCOND == "Q121D = 1"|BYCOND =="Q121E = 1"|BYCOND == "Q121F = 1"|BYCOND == "Q121G = 1"|BYCOND == "Q121H = 1"|BYCOND ==  "Q121I = 1"| BYCOND == "Q121J = 1"| BYCOND =="Q121K = 1" |BYCOND =="Q120 = 2") %>% filter(SCORE100!= 9999) %>% filter(QUESTION == "Q22"| QUESTION == "Q45"| QUESTION == "Q46"| QUESTION == "Q47"| QUESTION == "Q48"| QUESTION == "6Q4a" | QUESTION == "Q64c" | QUESTION == "6Q4b"| QUESTION == "Q69") 
+
+total_average = mean(Ethnic_Groups$SCORE100)
+
+
+ALLGroups <- ISED_only %>% filter(BYCOND == "Q121A = 1" |BYCOND ==  "Q121B = 1"|BYCOND == "Q121C = 1" |BYCOND == "Q121D = 1"|BYCOND =="Q121E = 1"|BYCOND == "Q121F = 1"|BYCOND == "Q121G = 1"|BYCOND == "Q121H = 1"|BYCOND ==  "Q121I = 1"| BYCOND == "Q121J = 1"| BYCOND =="Q121K = 1" |BYCOND =="Q120 = 2") %>% filter(SCORE100!= 9999) %>% filter(QUESTION == "Q22"| QUESTION == "Q45"| QUESTION == "Q46"| QUESTION == "Q47"| QUESTION == "Q48"| QUESTION == "6Q4a" | QUESTION == "Q64c" | QUESTION == "6Q4b"| QUESTION == "Q69") 
+
+ALLGroups <- ALLGroups %>% mutate(Ethnicity = case_when(DESCRIP_E == "Black"~"Black",  
+                                                       DESCRIP_E == "Chinese"~"Asian",
+                                                       DESCRIP_E == "Filipino"~"Asian",
+                                                       DESCRIP_E == "Non-visible minority"~"Non-visible minority",
+                                                       DESCRIP_E == "Non-White Latin American (including: Indigenous persons from Central and South America, etc.)"~"Latin American",
+                                                       DESCRIP_E == "Non-White West Asian, North African or Arab (including: Egyptian; Libyan; Lebanese; Iranian; etc.)"~"West Asian/North African/Arab",
+                                                       DESCRIP_E == "Other visible minority group"~"Other",
+                                                       DESCRIP_E == "Person of mixed origin (with one parent in one of the visible minority groups)"~"Mixed",
+                                                       DESCRIP_E == "South Asian/East Indian (including: Indian from India; Bangladeshi; Pakistani; East Indian from Guyana, Trinidad, East Africa; etc.)"~"South Asian/East Indian",
+                                                       DESCRIP_E == "Southeast Asian (including: Burmese; Cambodian; Laotian; Thai; Vietnamese; etc.)"~"Southeast Asian"))
+
+ALLGroups %>% group_by(Ethnicity) %>% summarize(mean = mean(SCORE100, na.rm = TRUE)) %>% ggplot(aes(x = Ethnicity, y = mean)) + geom_bar(stat="identity", fill = "steelblue") + labs(x = 'Group', y = 'Average Score', caption = 'Red line indicates average score across all departments') + geom_hline(yintercept = total_average, col = "red", linetype="dashed")
+
+
+ALLGroups %>% group_by(DESCRIP_E) %>% count()
+```
+
+
+
+
+
