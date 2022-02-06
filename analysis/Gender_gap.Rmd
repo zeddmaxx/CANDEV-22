@@ -1,6 +1,6 @@
 ---
 title: "Addressing Gender Gap at ISED"
-author: "Hyoeun Park"
+author: "The Sloths"
 date: "February 6, 2022"
 output: html_document
 ---
@@ -172,7 +172,7 @@ gender_57 <- type_harass %>%
   ggplot(aes(x = Gender, y = Total, fill = Type)) + 
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() + 
-  labs(caption = "Figure 1.4: Counting the number of harassments experienced by gender.")
+  labs(caption = "Figure 1.4: Number of harassments \n experienced by gender.")
 
 # Question 60: I am satisfied with how matters 
 # related to harassment are resolved in my department or agency. 
@@ -201,7 +201,7 @@ gender_60 <- Q60_total %>% ggplot(aes(x = Gender, y = Count, fill = Answer)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
   scale_fill_brewer(palette = "Set2") +
-  labs(caption = "Figure 1.5: Responses to how people are satisfied with harassment issues being resolved, based on gender.")
+  labs(caption = "Figure 1.5: Responses to how people are satisfied with \n harassment issues being resolved, \n based on gender.")
 
 gender_55
 gender_57
