@@ -1,0 +1,199 @@
+---
+title: "Gender_gap"
+author: "Hyoeun Park"
+date: "06/02/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(tidyverse)
+ee <- read.csv("subset-3-sous-ensemble-3.csv")
+```
+
+## R Markdown
+
+```{r gender_graph}
+ee <- ee %>% mutate(Gender = case_when(
+  DESCRIP_E == "Male gender" ~ "Male",
+  DESCRIP_E == "Female gender" | DESCRIP_E == "Gender diverse" ~ 
+    "Female/Gender diverse"
+))
+
+gender <- ee %>%  
+  select(Gender, QUESTION, BYCOND, SCORE100, DEPT_E, ANSWER1,
+         ANSWER2, ANSWER3, ANSWER4, ANSWER5, ANSWER6, ANSWER7) %>% 
+  filter(SCORE100 != 9999) %>% 
+  filter(DEPT_E == "Innovation, Science and Economic Development Canada") %>% 
+  na.exclude()
+
+gender_diff <- gender %>% 
+  group_by(QUESTION, Gender) %>% 
+  summarize(mean = mean(SCORE100, na.rm = TRUE)) %>%  
+  pivot_wider(names_from = Gender,  values_from = mean) %>% 
+  summarize(diff = `Female/Gender diverse` - `Male`)
+
+gender_diff %>% 
+  ggplot(aes(x = diff, colour = diff)) + 
+  geom_histogram(fill = "orange") + 
+  theme_minimal() +
+  labs(x = "Difference",
+       y = "Count",
+       caption = "Figure 1: Difference between Females/Gender Diverse and Males \n (The higher the difference in absolute value, the higher the disparity)")
+```
+
+
+
+```{r gender_test}
+t.test(gender_diff$diff, 
+       var.equal = T, alternative = "less")
+```
+
+We have strong evidence that the score between males and females are different than 0. 
+
+
+```{r gender_promo_retention}
+# Question 42. I believe I have opportunities 
+# for promotion within my department or agency, 
+# given my education, skills and experience. 
+gender_promo <- gender %>% filter(QUESTION == "Q42")
+Q42_total <- rbind(gender_promo %>% 
+                     filter(Gender == "Male") %>% 
+                     group_by(Gender) %>% 
+                     summarise(mean_score = mean(SCORE100)),
+                   gender_promo %>% 
+                     filter(Gender == "Female/Gender diverse") %>% 
+                     group_by(Gender) %>% 
+                     summarise(mean_score = mean(SCORE100)))
+gender_42 <- Q42_total %>% ggplot(aes(x = Gender, fill = Gender, y = mean_score)) + 
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Set1") +
+  theme_minimal() +
+  labs(caption = "Figure 1.1: Score of Question 42 by gender.") + 
+  theme(legend.position = "none") +
+  labs(x = "Gender", y = "Mean score")
+
+
+# Question 53. Do you intend to leave 
+# your current position in the next two years?
+gender_leave <- ee %>% 
+  filter(QUESTION == "Q53" & 
+           DEPT_E == "Innovation, Science and Economic Development Canada") %>%
+  select(Gender, AGREE, ANSWER1, ANSWER2, ANSWER3) %>% 
+  na.exclude()
+
+Q53_total <- rbind(gender_leave %>% 
+      group_by(Gender) %>% 
+      summarize(Count = sum(AGREE)),
+      gender_leave %>% 
+      group_by(Gender) %>% 
+      summarize(Count = sum(ANSWER2)),
+      gender_leave %>% 
+      group_by(Gender) %>% 
+      summarize(Count = sum(ANSWER3)))
+Q53_total <- Q53_total %>% mutate(Answer = c(rep("Yes", 2), rep("No", 2),
+                                             rep("Unsure", 2)))
+
+gender_53 <- Q53_total %>% ggplot(aes(x = Gender, fill = Answer, y = Count)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +
+  scale_fill_brewer(palette = "Dark2") +
+  theme_minimal() +
+  labs(caption = "Figure 1.2: Number of people who responded `Yes` to Question 53.")
+
+cowplot::plot_grid(gender_42, gender_53)
+```
+
+```{r gender_harass}
+# Question 55: Having carefully read the definition of harassment, 
+# have you been the victim of harassment on the job in the past 12 months? 
+gender_harass <- ee %>% 
+  filter(QUESTION == "Q55" & 
+           DEPT_E == "Innovation, Science and Economic Development Canada") %>%
+  select(Gender, AGREE, ANSWER2) %>% 
+  na.exclude()
+Q55_total <- rbind(gender_harass %>% 
+                     group_by(Gender) %>% 
+                     summarise(Count = sum(AGREE)),
+                   gender_harass %>% 
+                     group_by(Gender) %>% 
+                     summarise(Count = sum(ANSWER2)))
+Q55_total <- Q55_total %>% mutate(Answer = c(rep("Yes", 2), rep("No", 2)))
+
+# Number of people who've experienced harassment(s) over the past one year
+gender_55 <- Q55_total %>% ggplot(aes(x = Gender, fill = Answer, y = Count)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +
+  scale_fill_brewer(palette = "Dark2") +
+  theme_minimal() +
+  labs(caption = "Figure 1.3: Response to Question 55 based on gender.")
+
+# Question 57: Type of harassment
+type_harass <- ee %>% 
+  filter(QUESTION == "Q57a" | QUESTION == "Q57b" |
+           QUESTION == "Q57c" | QUESTION == "Q57d" |
+           QUESTION == "Q57e" | QUESTION == "Q57f" |
+           QUESTION == "Q57g" | QUESTION == "Q57h" |
+           QUESTION == "Q57i" | QUESTION == "Q57j" |
+           QUESTION == "Q57k" | QUESTION == "Q57l" |
+           QUESTION == "Q57m") %>% 
+  filter(DEPT_E == "Innovation, Science and Economic Development Canada") %>% 
+  select(Gender, AGREE, QUESTION) %>% 
+  na.exclude() %>% 
+  group_by(Gender, QUESTION) %>% 
+  summarize(Total = sum(AGREE)) %>% 
+  mutate(Type = case_when(
+    QUESTION == "Q57a" ~ "Aggressive behaviour",
+    QUESTION == "Q57b" ~ "Excessive control",
+    QUESTION == "Q57c" ~ "Being excluded or being ignored",
+    QUESTION == "Q57d" ~ "Humiliation",
+    QUESTION == "Q57e" ~ "Interference with work or withholding resources",
+    QUESTION == "Q57f" ~ "Offensive remark",
+    QUESTION == "Q57g" ~ "Personal attack",
+    QUESTION == "Q57i" ~ "Sexual comment or gesture",
+    QUESTION == "Q57j" ~ "Threat",
+    QUESTION == "Q57k" ~ "Unfair treatment",
+    QUESTION == "Q57l" ~ "Yelling or shouting",
+    QUESTION == "Q57m" ~ "Other"
+  )) %>% 
+  select(-QUESTION)
+
+# Plot: Counts of each type of harassment
+gender_57 <- type_harass %>% 
+  ggplot(aes(x = Gender, y = Total, fill = Type)) + 
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() + 
+  labs(caption = "Figure 1.4: Counting the number of harassments experienced by gender.")
+
+# Question 60: I am satisfied with how matters 
+# related to harassment are resolved in my department or agency. 
+harass_satisfy <- ee %>% 
+  filter(QUESTION == "Q60" &
+           DEPT_E == "Innovation, Science and Economic Development Canada") %>%
+  select(Gender, ANSWER1, ANSWER2, ANSWER3, ANSWER4, ANSWER5, ANSWER6) %>% 
+  na.exclude()
+Q60_total <- cbind(harass_satisfy %>% 
+                     group_by(Gender) %>% 
+                     summarise(Count = c(sum(ANSWER1), 
+                                         sum(ANSWER2),
+                                         sum(ANSWER3),
+                                         sum(ANSWER4),
+                                         sum(ANSWER5),
+                                         sum(ANSWER6))),
+                   Answer = 
+                     rep(c("Strongly Agree","Somewhat agree",
+                                    "Neither agree not disagree",
+                                    "Somewhat disagree",
+                                    "Strongly disagree",
+                                    "Don't know"), 2))
+
+# Plot: How people are satisfied with harassment issues being resolved
+gender_60 <- Q60_total %>% ggplot(aes(x = Gender, y = Count, fill = Answer)) + 
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(caption = "Figure 1.5: Responses to how people are satisfied with harassment issues being resolved, based on gender.")
+
+gender_55
+gender_57
+gender_60
+```
