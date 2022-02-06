@@ -170,15 +170,16 @@ const App = () => {
         </Typography>
         {(page === 99 || page === 0) && (
           <Button
-            variant="contained"
+            variant="text"
             style={{ marginRight: 5 }}
             onClick={handleBegin}
+            style={{color:'gray'}}
           >
             Start Visual Essay
           </Button>
         )}
         {page !== 0 && (
-          <Button variant="contained" onClick={handleDashboard}>
+          <Button variant="text" onClick={handleDashboard}>
             Go to Dashboard
           </Button>
         )}
@@ -322,17 +323,19 @@ const App = () => {
           {
             page !==1 &&
             <Button
-              variant="contained"
+              variant="text"
               style={{ marginTop: 20, marginRight: 20 }}
               onClick={handlePreviousPage}
+              style={{color:'gray'}}
             >
               Previous Page
             </Button>
           }
           
             
-            <Button variant="contained" style={{ marginTop: 20 }}
-              onClick={handleNextPage}>
+            <Button variant="text" style={{ marginTop: 20 }}
+              onClick={handleNextPage}
+              style={{color:'gray'}}>
               Next Page
             </Button>
           </div>
