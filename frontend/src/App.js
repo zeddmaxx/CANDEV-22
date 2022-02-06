@@ -21,12 +21,11 @@ import demographic_options from "./options/demographic_options.json";
 import department_options from "./options/department_options.json";
 import question_options from "./options/question_options.json";
 import survey_year_options from "./options/survey_year_options.json";
-import pivot_options from './options/pivot_options.json'
+import pivot_options from "./options/pivot_options.json";
 
 //Viewers
-import pageViewer from './viewer/pageViewer'
-import dataViewer from './viewer/dataViewer'
-
+import pageViewer from "./viewer/pageViewer";
+import dataViewer from "./viewer/dataViewer";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -40,8 +39,6 @@ const App = () => {
   const [axis, setAxis] = useState({ label: "Question", value: "question" });
 
   const [page, setPage] = useState(99);
-
-  
 
   useEffect(() => {
     setFilters(dataViewer(page));
@@ -132,18 +129,12 @@ const App = () => {
   };
 
   const handleNextPage = () => {
-    setPage(prevPage => (
-      prevPage + 1
-    )
-    )
-  }
+    setPage((prevPage) => prevPage + 1);
+  };
 
   const handlePreviousPage = () => {
-    setPage(prevPage => (
-      prevPage - 1
-    )
-    )
-  }
+    setPage((prevPage) => prevPage - 1);
+  };
 
   const padding = 0;
 
@@ -173,7 +164,7 @@ const App = () => {
             variant="text"
             style={{ marginRight: 5 }}
             onClick={handleBegin}
-            style={{color:'gray'}}
+            style={{ color: "gray" }}
           >
             Start Visual Essay
           </Button>
@@ -319,25 +310,27 @@ const App = () => {
           </div>
         ) : null}
         {page !== 99 && page !== 0 && (
-          <div>
-          {
-            page !==1 &&
-            <Button
-              variant="text"
-              style={{ marginTop: 20, marginRight: 20 }}
-              onClick={handlePreviousPage}
-              style={{color:'gray'}}
-            >
-              Previous Page
-            </Button>
-          }
-          
-            
-            <Button variant="text" style={{ marginTop: 20 }}
-              onClick={handleNextPage}
-              style={{color:'gray'}}>
-              Next Page
-            </Button>
+          <div style={{display:'flex', justifyContent:'space-between'}}>
+            {page !== 1 ? (
+              <Button
+                variant="text"
+                style={{ marginTop: 20, marginRight: 20 }}
+                onClick={handlePreviousPage}
+                style={{ color: "gray" }}
+              >
+                Previous Page
+              </Button>
+            ):<div></div>}
+            {page !==3 &&
+              <Button
+                variant="text"
+                style={{ marginTop: 20 }}
+                onClick={handleNextPage}
+                style={{ color: "gray" }}
+              >
+                Next Page
+              </Button>
+            }
           </div>
         )}
         {/* <pre>{JSON.stringify(pivotDataGroup, null, 2)}</pre> */}
