@@ -2,7 +2,7 @@
 
 ## Challenge: Retention and mobilization of talent among employment equity groups
 
-[https://candev-equity-talent.web.app/](https://candev-equity-talent.web.app/)
+Hello and welcome to our Candev 22 Submission. Please find our solution to the challenge below. 
 
 ## Directory Structure
 ```
@@ -10,3 +10,14 @@
 ├───clean-data      -> Cleaning Data For Web App
 └───frontend        -> Web App with Dashboard
 ```
+
+## ISED Analysis
+
+[https://htmlpreview.github.io/?https://github.com/zeddmaxx/CANDEV-22/blob/main/analysis/ISED_cultural_analysis.html](ISED Analysis)
+
+## Gender Gap Analysis
+[https://htmlpreview.github.io/?https://github.com/zeddmaxx/CANDEV-22/blob/main/analysis/Gender_gap.html](Gender Gap Analysis)
+
+## Interactive Dashboard
+
+[https://candev-equity-talent.web.app/](https://candev-equity-talent.web.app/)
