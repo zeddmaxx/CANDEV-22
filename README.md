@@ -2,6 +2,8 @@
 
 ## Challenge: Retention and mobilization of talent among employment equity groups
 
+[https://candev-equity-talent.web.app/](https://candev-equity-talent.web.app/)
+
 ## Directory Structure
 ```
 ├───analysis        -> Analysis of Data Set in R
