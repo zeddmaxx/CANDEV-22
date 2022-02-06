@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(readr)
 library(tidyverse)
-ee <- read.csv("subset-3-sous-ensemble-3.csv")
+ee <- read.csv("data/subset-3-sous-ensemble-3.csv")
 ```
 
 ## R Markdown
