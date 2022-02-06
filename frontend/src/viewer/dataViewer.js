@@ -6,17 +6,12 @@ const dataViewer = (page) => {
           question: [
             {
               label:
-                "Question 65i. What action(s) did you take to address the discrimination you experienced? I took no action.",
+                "Question 1. I have the tools, technology and equipment I need to do my job.",
               value:
-                "Question 65i. What action(s) did you take to address the discrimination you experienced? I took no action.",
+                "Question 1. I have the tools, technology and equipment I need to do my job.",
             },
           ],
-          department: [
-            {
-              label: "Innovation, Science and Economic Development Canada",
-              value: "Innovation, Science and Economic Development Canada",
-            },
-          ],
+          department: [{ label: "Public Service", value: "Public Service" }],
           demographic: [
             { label: "Female gender", value: "Female gender" },
             { label: "Gender diverse", value: "Gender diverse" },
