@@ -13,10 +13,10 @@ Hello and welcome to our Candev 22 Submission. Please find our solution to the c
 
 ## ISED Analysis
 
-[https://htmlpreview.github.io/?https://github.com/zeddmaxx/CANDEV-22/blob/main/analysis/ISED_cultural_analysis.html](ISED Analysis)
+[ISED Analysis](https://htmlpreview.github.io/?https://github.com/zeddmaxx/CANDEV-22/blob/main/analysis/ISED_cultural_analysis.html)
 
 ## Gender Gap Analysis
-[https://htmlpreview.github.io/?https://github.com/zeddmaxx/CANDEV-22/blob/main/analysis/Gender_gap.html](Gender Gap Analysis)
+[Gender Gap Analysis](https://htmlpreview.github.io/?https://github.com/zeddmaxx/CANDEV-22/blob/main/analysis/Gender_gap.html)
 
 ## Interactive Dashboard
 
