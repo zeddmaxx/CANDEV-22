@@ -42,7 +42,7 @@ gender_diff %>%
        y = "Count",
        caption = "Figure 1: Difference between Females/Gender Diverse and Males \n (The higher the difference in absolute value, the higher the disparity)")
 ```
-
+Figure 1 demonstrates the differences in scores between difference our base group, males, and the females/gender diverse groups. To investigate the differences in the groups, We conducted a t-test to compare the two groups. We have strong evidence that suggests that the score between males and females are different than 0. 
 
 
 ```{r gender_test}
@@ -50,7 +50,7 @@ t.test(gender_diff$diff,
        var.equal = T, alternative = "less")
 ```
 
-We have strong evidence that the score between males and females are different than 0. 
+We have strong evidence that the score between males and females are different than 0. This implies that there are disparities between the two groups based on the survey results.
 
 
 ```{r gender_promo_retention}
