@@ -2,7 +2,9 @@
 title: "CANDEV- ISED ANALYSIS"
 author: "Jaffa Romain"
 date: "05/02/2022"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +18,7 @@ library(kableExtra)
 
 # Data Cleaning
 ```{r data}
-CANDEV_data <- read_csv("~/Desktop/subset-3-sous-ensemble-3.csv")
+CANDEV_data <- read_csv("data/subset-3-sous-ensemble-3.csv")
 CANDEV_data <- CANDEV_data %>% filter(SCORE100!= 9999)
 
 ISED_only <- CANDEV_data %>% filter(DEPT_E == "Innovation, Science and Economic Development Canada")
