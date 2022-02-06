@@ -155,7 +155,9 @@ const App = () => {
           from members of the Public Service. This dataset in particular is
           focused on Equity and Diversity. We go through a visual essay of some
           of our findings to show the largest gaps between Employment Equity
-          group members and non-Employment Equity group members within ISED. You
+          group members and non-Employment Equity group members within ISED. 
+          You can take a look at the technical details of our findings <a href="https://htmlpreview.github.io/?https://github.com/zeddmaxx/CANDEV-22/blob/main/analysis/ISED_cultural_analysis.html" target="_blank" rel="noreferrer">here</a>
+          &nbsp;and <a href="https://htmlpreview.github.io/?https://github.com/zeddmaxx/CANDEV-22/blob/main/analysis/Gender_gap.html" target="_blank" rel="noreferrer">here</a>&nbsp; You
           can also go through straight to our interactive dashboard to explore
           yourself!
         </Typography>
