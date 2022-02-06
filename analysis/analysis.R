@@ -10,8 +10,9 @@ male_gender_diverse <- data %>%
   mutate(difference = `score_Male gender` - `score_Gender diverse`) %>% 
   mutate(share = `answer_count_Gender diverse`/`answer_count_Male gender`) %>%
   mutate(mean_share = mean(share, na.rm = TRUE)) %>%
-  mutate(share_difference = share - mean_share) %>%
-  filter(survey_year == '2020')
+  mutate(share_difference = share/mean_share) %>%
+  filter(survey_year == '2020') %>%
+  filter(department == "Innovation, Science and Economic Development Canada")
 
 male_female <- data %>%
   select(!subindicator) %>%
@@ -22,7 +23,8 @@ male_female <- data %>%
   mutate(share = `answer_count_Female gender`/`answer_count_Male gender`) %>%
   mutate(mean_share = mean(share, na.rm = TRUE)) %>%
   mutate(share_difference = share/mean_share) %>%
-  filter(survey_year == '2020')
+  filter(survey_year == '2020') %>%
+  filter(department == "Innovation, Science and Economic Development Canada")
 
 indigenous_non <- data %>%
   select(!subindicator) %>%
@@ -33,7 +35,8 @@ indigenous_non <- data %>%
   mutate(share = `answer_count_Indigenous`/`answer_count_Non-Indigenous`) %>%
   mutate(mean_share = mean(share, na.rm = TRUE)) %>%
   mutate(share_difference = share/mean_share) %>%
-  filter(survey_year == '2020')
+  filter(survey_year == '2020') %>%
+  filter(department == 'Innovation, Science and Economic Development Canada')
 
 
 indigenous_non <- data %>%
@@ -50,5 +53,6 @@ disability_non <- data %>%
   group_by(survey_year) %>%
   pivot_wider(names_from = "demographic", values_from = "score") %>%
   mutate(difference = `Person with a disability` - `Not a person with a disability`) %>% 
-  filter(survey_year == '2020') %>%
-  filter(department == 'Public Service')
+  filter(survey_year == '2020') 
+
+
