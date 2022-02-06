@@ -164,9 +164,8 @@ const App = () => {
         {(page === 99 || page === 0) && (
           <Button
             variant="text"
-            style={{ marginRight: 5 }}
+            style={{ marginRight: 5, color: "gray" }}
             onClick={handleBegin}
-            style={{ color: "gray" }}
           >
             Start Visual Essay
           </Button>
@@ -316,9 +315,8 @@ const App = () => {
             {page !== 1 ? (
               <Button
                 variant="text"
-                style={{ marginTop: 20, marginRight: 20 }}
+                style={{ marginTop: 20, marginRight: 20, color: "gray" }}
                 onClick={handlePreviousPage}
-                style={{ color: "gray" }}
               >
                 Previous Page
               </Button>
@@ -326,9 +324,8 @@ const App = () => {
             {page !==3 &&
               <Button
                 variant="text"
-                style={{ marginTop: 20 }}
+                style={{ marginTop: 20, color: "gray" }}
                 onClick={handleNextPage}
-                style={{ color: "gray" }}
               >
                 Next Page
               </Button>
