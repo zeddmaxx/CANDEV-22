@@ -16,7 +16,7 @@ ee <- read.csv("subset-3-sous-ensemble-3.csv")
 
 ## Gap between female/gender diverse and male individuals
 
-```{r gender_graph}
+```{r gender_graph, fig.align='center'}
 ee <- ee %>% mutate(Gender = case_when(
   DESCRIP_E == "Male gender" ~ "Male",
   DESCRIP_E == "Female gender" | DESCRIP_E == "Gender diverse" ~ 
@@ -56,7 +56,7 @@ Since we have noticed some plausible differences in Figure 1, we can conduct a t
 
 Now, let us investigate some of the survey questions to see what might be the underlying causes of such difference in scores.
 
-```{r gender_promo_retention}
+```{r gender_promo_retention, fig.align='center'}
 # Question 42. I believe I have opportunities 
 # for promotion within my department or agency, 
 # given my education, skills and experience. 
@@ -114,7 +114,7 @@ Based on Questions 42 and 53, we were able to visualize the distribution of answ
 
 Meanwhile, we see in Figure 1.2 that several people in the female/gender diverse group strongly expressed their intent to leave ISED within the next 2 years in comparison to the proportion in male individuals. Also, a lot of female/gender diverse individuals were unsure of leaving within the 2 years, which could imply that we need to further investigate what might be the cause of it. 
 
-```{r gender_harass}
+```{r gender_harass, fig.align='center'}
 # Question 55: Having carefully read the definition of harassment, 
 # have you been the victim of harassment on the job in the past 12 months? 
 gender_harass <- ee %>% 
