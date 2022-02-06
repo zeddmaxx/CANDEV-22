@@ -73,6 +73,28 @@ const dataViewer = (page) => {
             { label: "Not a person with a disability", value: "Not a person with a disability" },
           ],
         };
+        case 3:
+        return {
+          survey_year: [{ label: "2020", value: 2020 }],
+          question: [
+            {
+              label:
+                "Question 48. I would feel comfortable sharing concerns about issues related to racism in the workplace with a person of authority (e.g., immediate supervisor, senior manager, ombudsman, human resources advisor).",
+              value:
+                "Question 48. I would feel comfortable sharing concerns about issues related to racism in the workplace with a person of authority (e.g., immediate supervisor, senior manager, ombudsman, human resources advisor).",
+            }
+          ],
+          department: [
+            {
+              label: "Innovation, Science and Economic Development Canada",
+              value: "Innovation, Science and Economic Development Canada",
+            },
+          ],
+          demographic: [
+            { label: "Visible minority", value: "Visible minority" },
+            { label: "Non-visible minority", value: "Non-visible minority" },
+          ],
+        };
       case 99:
         return {
           survey_year: [{ label: "2020", value: 2020 }],
