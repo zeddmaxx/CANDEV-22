@@ -1,0 +1,18 @@
+[
+    {
+      "label": "Demographic",
+      "value": "demographic"
+    },
+    {
+      "label": "Survey Year",
+      "value": "survey_year"
+    },
+    {
+      "label": "Question",
+      "value": "question"
+    },
+    {
+      "label": "Department",
+      "value": "department"
+    }
+  ]

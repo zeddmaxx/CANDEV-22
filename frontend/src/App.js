@@ -21,163 +21,17 @@ import demographic_options from "./options/demographic_options.json";
 import department_options from "./options/department_options.json";
 import question_options from "./options/question_options.json";
 import survey_year_options from "./options/survey_year_options.json";
+import pivot_options from './options/pivot_options.json'
 
-const pageViewer = (page) => {
-  switch (page) {
-    case 1:
-      return (
-        <div>
-          <Typography
-            variant="h5"
-            component="h5"
-            style={{ marginTop: 20, marginBottom: 20 }}
-          >
-            Male and Female Gender Comparisons within ISED
-          </Typography>
-          <Typography variant="p" component="p" style={{ marginTop: 20 }}>
-            We found that the biggest differences between female and male genders is to questions regarding actions taken after discrimination
-            or harassment were experienced. Those identifying with the female gender were much more likely to answer that they took no action against
-            discrimination or harassment than those identifying with the male gender. 
-          </Typography>
-        </div>
-      );
-    case 2:
-      return (
-        <div>
-          <Typography
-            variant="h5"
-            component="h5"
-            style={{ marginTop: 20, marginBottom: 20 }}
-          >
-            Person with a Disability and Not a Person with a Disability Comparisons within ISED
-          </Typography>
-          <Typography variant="p" component="p" style={{ marginTop: 20 }}>
-            We found that
-          </Typography>
-        </div>
-      );
-  }
-};
+//Viewers
+import pageViewer from './viewer/pageViewer'
+import dataViewer from './viewer/dataViewer'
 
-const dataViewer = (page) => {
-  switch (page) {
-    case 0:
-      return {
-        survey_year: [{ label: "2020", value: 2020 }],
-        question: [
-          {
-            label:
-              "Question 65i. What action(s) did you take to address the discrimination you experienced? I took no action.",
-            value:
-              "Question 65i. What action(s) did you take to address the discrimination you experienced? I took no action.",
-          },
-        ],
-        department: [
-          {
-            label: "Innovation, Science and Economic Development Canada",
-            value: "Innovation, Science and Economic Development Canada",
-          },
-        ],
-        demographic: [
-          { label: "Female gender", value: "Female gender" },
-          { label: "Gender diverse", value: "Gender diverse" },
-        ],
-      };
-    case 1:
-      return {
-        survey_year: [{ label: "2020", value: 2020 }],
-        question: [
-          {
-            label:
-              "Question 65i. What action(s) did you take to address the discrimination you experienced? I took no action.",
-            value:
-              "Question 65i. What action(s) did you take to address the discrimination you experienced? I took no action.",
-          },
-          {
-            label:
-              "Question 58i. What action(s) did you take to address the harassment you experienced? I took no action.",
-            value:
-              "Question 58i. What action(s) did you take to address the harassment you experienced? I took no action.",
-          },
-        ],
-        department: [
-          {
-            label: "Innovation, Science and Economic Development Canada",
-            value: "Innovation, Science and Economic Development Canada",
-          },
-        ],
-        demographic: [
-          { label: "Male gender", value: "Male gender" },
-          { label: "Female gender", value: "Female gender" },
-        ],
-      };
-      case 2:
-      return {
-        survey_year: [{ label: "2020", value: 2020 }],
-        question: [
-          {
-            label:
-              "Question 57e. Please indicate the nature of the harassment you experienced. Interference with work or withholding resources",
-            value:
-              "Question 57e. Please indicate the nature of the harassment you experienced. Interference with work or withholding resources",
-          },
-          {
-            label:
-              "Question 63e. From whom did you experience discrimination on the job? Individuals from other departments or agencies",
-            value:
-              "Question 63e. From whom did you experience discrimination on the job? Individuals from other departments or agencies",
-          },
-        ],
-        department: [
-          {
-            label: "Innovation, Science and Economic Development Canada",
-            value: "Innovation, Science and Economic Development Canada",
-          },
-        ],
-        demographic: [
-          { label: "Person with a disability", value: "Person with a disability" },
-          { label: "Not a person with a disability", value: "Not a person with a disability" },
-        ],
-      };
-    case 99:
-      return {
-        survey_year: [{ label: "2020", value: 2020 }],
-        question: [
-          {
-            label:
-              "Question 1. I have the tools, technology and equipment I need to do my job.",
-            value:
-              "Question 1. I have the tools, technology and equipment I need to do my job.",
-          },
-        ],
-        department: [{ label: "Public Service", value: "Public Service" }],
-        demographic: [
-          { label: "Female gender", value: "Female gender" },
-          { label: "Gender diverse", value: "Gender diverse" },
-        ],
-      };
-  }
-};
 
 const App = () => {
   const [data, setData] = useState([]);
 
-  const [filters, setFilters] = useState({
-    survey_year: [{ label: "2020", value: 2020 }],
-    question: [
-      {
-        label:
-          "Question 1. I have the tools, technology and equipment I need to do my job.",
-        value:
-          "Question 1. I have the tools, technology and equipment I need to do my job.",
-      },
-    ],
-    department: [{ label: "Public Service", value: "Public Service" }],
-    demographic: [
-      { label: "Female gender", value: "Female gender" },
-      { label: "Male gender", value: "Male gender" },
-    ],
-  });
+  const [filters, setFilters] = useState(dataViewer(99));
 
   const [pivot, setPivot] = useState({
     label: "Demographic",
@@ -187,24 +41,7 @@ const App = () => {
 
   const [page, setPage] = useState(99);
 
-  const pivotOptions = [
-    {
-      label: "Demographic",
-      value: "demographic",
-    },
-    {
-      label: "Survey Year",
-      value: "survey_year",
-    },
-    {
-      label: "Question",
-      value: "question",
-    },
-    {
-      label: "Department",
-      value: "department",
-    },
-  ];
+  
 
   useEffect(() => {
     setFilters(dataViewer(page));
@@ -356,7 +193,7 @@ const App = () => {
             </Grid>
             <Grid item xs={10} padding={padding}>
               <Select
-                options={pivotOptions}
+                options={pivot_options}
                 value={pivot ? pivot : []}
                 onChange={handlePivotChange}
               />
@@ -368,7 +205,7 @@ const App = () => {
             </Grid>
             <Grid item xs={10} padding={padding}>
               <Select
-                options={pivotOptions}
+                options={pivot_options}
                 value={axis ? axis : []}
                 onChange={handleAxisChange}
               />
